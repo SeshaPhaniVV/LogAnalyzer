@@ -2,6 +2,10 @@
 
 ## HomeWork 1 - Log File Analyzer
 
+### Author: Venkata Sesha Phani, Vakicherla
+### Email: vvakic2@uic.edu
+### UIN: 651416734
+
 ### Introduction
 The goal of this project is to gain experience with solving a distributed computational problem using cloud computing technologies.
 
@@ -10,6 +14,8 @@ Video Link : <TODO>
 The video explains deployment of hadoop application in AWS EMR Instance
 
 ### Environment
+
+```
 OS: Ubuntu
 
 IDE: IntelliJ IDEA 2022.2.3 (Ultimate Edition)
@@ -19,6 +25,7 @@ SCALA Version: 3.2.0
 SBT Version: 1.7.1
 
 Hadoop Version: 3.3.4
+```
 
 ### Running the test file
 
@@ -74,7 +81,7 @@ hadoop fs -mkdir -p log
 hdfs dfs -put log/LogFileGenerator.2022-09-*.log log
 ````
 
-7) Run Map-Reduce Tasks
+5) Run Map-Reduce Tasks
 
    hadoop jar </nameOfJarFile/>
 
@@ -84,7 +91,7 @@ hdfs dfs -put log/LogFileGenerator.2022-09-*.log log
 hadoop jar target/scala-3.2.0/LogFileGenerator-assembly-0.1.jar
 ````
 
-8) To view the output use the following commands
+6) To view the output use the following commands
 
    hdfs dfs -get </OutputDirectory/> </outputPath/>
 
@@ -96,13 +103,13 @@ hdfs dfs -get output logAnalyzerOutput
 
 Now output is copied to logAnalyzerOutput from hdfs output directory
 
-9) Generating .csv output file
+7) Generating .csv output file
 
-   9.1) Move to output path in which the output is copied and ls to see the output of each task
+   7.1) Move to output path in which the output is copied and ls to see the output of each task
 
               cd logAnalyzerOutput
 
-   9.2) To generate .csv output file
+   7.2) To generate .csv output file
 
    ````
      hadoop fs -cat output/task1/* > Task1.csv  
@@ -183,8 +190,6 @@ Task3Mapper: (Key, Value) (key -> logMessageTag - [ERRO/INFO/WARN/DEBUG]), (valu
 
 Task3Reducer : (Key, Value) (key -> logMessageTag - [ERRO/INFO/WARN/DEBUG]) , (value -> sum of the logMessage count)
 
-Task3Partitioner : (Key, Value) (Key -> logMessageTag - [ERRO/INFO/WARN/DEBUG]) , (value -> sum of the logMessage count, NumReduceTasks : 2)
-
 **4) Task 4:** To produce the number of characters in each log message for each log message type that contain the highest number of characters in the detected instances of the designated regex pattern.
 
 The max length of every injected regex pattern log message for every log message is displayed
@@ -192,9 +197,6 @@ The max length of every injected regex pattern log message for every log message
 Task4Mapper: (Key, Value) (key -> logMessageTag - [ERRO/INFO/WARN/DEBUG]), (value -> logMessageLength)
 
 Task4Reducer : (Key, Value) (key -> logMessageTag - [ERRO/INFO/WARN/DEBUG]) , (value -> max of the logMessageLength)
-
-Task4Partitioner : (Key, Value) (Key -> logMessageTag - [ERRO/INFO/WARN/DEBUG]) , (value -> max of the logMessageLength, NumReduceTasks : 2)
-
 
 ### Output
 
