@@ -62,6 +62,7 @@ sbt clean compile assembly
 ```
 cd /usr/local/hadoop/sbin
 ./start-all.sh
+./mr-jobhistory-daemon.sh start historyserver
 ```
 
 3) Once both dfs and yarn processes are started - check them using `jps` command. Output should contain below info
@@ -69,6 +70,7 @@ cd /usr/local/hadoop/sbin
 DataNode
 NameNode
 SecondaryNameNode
+JobHistoryServer
 NodeManager
 ResourceManager
 ````
@@ -76,9 +78,9 @@ ResourceManager
 4) Once we started the hadoop processes move the input files to hadoop filesystem. From LogAnalyzer directory in terminal Execute the below commands
 ````
 hdfs dfs -rm -r log // Removes the existing log files
-hdfs dfs -rm -r output // 
-hadoop fs -mkdir -p log
-hdfs dfs -put log/LogFileGenerator.2022-09-*.log log
+hdfs dfs -rm -r output // Removes existing output directory
+hadoop fs -mkdir -p log // Creates log difrectory in the root folder
+hdfs dfs -put log/LogFileGenerator.2022-09-*.log log // copies log files from local to the hdfs file system
 ````
 
 5) Run Map-Reduce Tasks
@@ -98,7 +100,7 @@ hadoop jar target/scala-3.2.0/LogFileGenerator-assembly-0.1.jar
    OutputPath : The path to copy the output
 
 ``
-hdfs dfs -get output logAnalyzerOutput
+hdfs dfs -get output logAnalyzerOutput // copies the output into your local
 ``
 
 Now output is copied to logAnalyzerOutput from hdfs output directory
@@ -112,10 +114,10 @@ Now output is copied to logAnalyzerOutput from hdfs output directory
    7.2) To generate .csv output file
 
    ````
-     hadoop fs -cat output/task1/* > Task1.csv  
-     hadoop fs -cat output/task2/* > Task2.csv  
-     hadoop fs -cat output/task3/* > Task3.csv  
-     hadoop fs -cat output/task4/* > Task4.csv   
+   hadoop fs -cat output/task1/part-r-00000 > task1/Task1.csv  
+   hadoop fs -cat output/task2/part-r-00000 > task2/Task2.csv  
+   hadoop fs -cat output/task3/part-r-00000 > task3/Task3.csv  
+   hadoop fs -cat output/task4/part-r-00000 > task4/Task4.csv
    ````
 
 Now, logAnalyzerOutput will have all the output files in both normal and .csv format
@@ -135,7 +137,7 @@ Now, logAnalyzerOutput will have all the output files in both normal and .csv fo
 
    3.4) Task4 - /src/main/scala/LogAnalyzerTasks/Task4
 
-   3.5) MapperReducerTasks - /src/main/scala/LogAnalyzer : This is the main map reduce class that runs all tasks
+   3.5) LogAnalyzer - /src/main/scala/LogAnalyzer : This is the main map reduce class that runs all tasks
 
 4) LogAnalyzerTest - /src/test/scala/LogAnalyzerTests/LogAnalyzerTest
 5) Jar File - /target/scala-3.2.0/LogFileGenerator-assembly-0.1.jar : Generated Jar files
@@ -143,7 +145,7 @@ Now, logAnalyzerOutput will have all the output files in both normal and .csv fo
 
 ### Map Reduce Tasks Implementation
 
-There are totally 4 tasks created in this homework. They are clearly listed below
+There are totally 4 tasks created that this project accomplishes. They are clearly listed below
 
 **Mapper:** The input data is first processed by all Mappers/Map tasks, and then the intermediate output is generated.
 
@@ -205,4 +207,4 @@ You can see two output files from reach reduce task.
 
 task1/task2/task3/task4 : One comma separated output file with the desired output.
 
-task2Intermediate : This is the intermediate output of task2 before sorting. This is the output from the Task2Reducer1.
+task2Intermediate : This is the intermediate output of task2 before sorting.
