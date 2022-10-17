@@ -62,6 +62,12 @@ https://www.jetbrains.com/help/idea/work-with-scala-formatter.html
 sbt clean compile assembly
 ````
 
+4) Running project via SBT Run. Please delete the `output` folder in project root before you run the below command.
+
+```
+sbt run
+```
+
 ### Running the jobs
 1) Setup hadoop for ubuntu following the guide https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html
 
