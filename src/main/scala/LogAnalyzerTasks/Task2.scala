@@ -49,10 +49,10 @@ object Task2 {
       val keyValPattern: Regex = conf.getString("logAnalyzer.errorRegexPattern").r
       val injectPattern: Regex = conf.getString("logAnalyzer.injectedStringPattern").r
 
-      // If the a Log entry matches the regex pattern, and the generated log messages matches the injected string pattern
-      // the ERROR log message is counted
-      // Here. Key - TIME (HOUR) -  GROUP(1) . Time is in HH.mm.ss.SSS format so split(:)(0) is hour
-      // Value - count : 1
+      /** If the a Log entry matches the regex pattern, and the generated log messages matches the
+        * injected string pattern the ERROR log message is counted Here. Key - TIME (HOUR) -
+        * GROUP(1) . Time is in HH.mm.ss.SSS format so split(:)(0) is hour Value - count : 1
+        */
       val matchedPatterns = keyValPattern.findAllMatchIn(value.toString)
 
       matchedPatterns.toList.foreach((pattern) => {

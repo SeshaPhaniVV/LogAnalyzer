@@ -48,10 +48,10 @@ object Task1 {
       val startTime = LocalTime.parse(conf.getString("logAnalyzer.startTime"), formatter)
       val endTime   = LocalTime.parse(conf.getString("logAnalyzer.endTime"), formatter)
 
-      // Finds matched regex log messages and checks if it is inside the time interval set in
-      // configuration. If both the cases are successful then we will produce output as
-      // key -> INFO | ERROR | DEBUG | WARN
-      // val -> 1 (count of occurrence)
+      /** Finds matched regex log messages and checks if it is inside the time interval set in
+        * configuration. If both the cases are successful then we will produce output as key -> INFO
+        * \| ERROR | DEBUG | WARN val -> 1 (count of occurrence)
+        */
       val patternMatch = keyValPattern.findFirstMatchIn(value.toString)
       patternMatch.toList.foreach(x => {
         injectPattern.findFirstMatchIn(x.group(5)) match {

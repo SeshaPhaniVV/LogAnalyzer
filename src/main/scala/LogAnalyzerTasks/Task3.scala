@@ -39,9 +39,10 @@ object Task3 {
         context: Mapper[Object, Text, Text, IntWritable]#Context
     ): Unit = {
       val keyValPattern: Regex = conf.getString("logAnalyzer.regexPattern").r
-      // Finds all the logs and writes key group(3), value 1
-      // key -> INFO | ERROR | DEBUG | WARN
-      // val -> 1 (count of occurrence)
+
+      /** Finds all the logs and writes key group(3), value 1 key -> INFO | ERROR | DEBUG | WARN val
+        * -> 1 (count of occurrence)
+        */
       val p = keyValPattern.findAllMatchIn(value.toString)
       p.toList.foreach((pattern) => {
         tag.set(pattern.group(3))
