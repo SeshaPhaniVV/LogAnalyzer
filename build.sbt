@@ -38,6 +38,8 @@ libraryDependencies += "org.apache.hadoop" % "hadoop-mapreduce-client-core"     
 libraryDependencies += "org.apache.hadoop" % "hadoop-mapreduce-client-jobclient" % "3.3.4"
 libraryDependencies += "org.apache.hadoop" % "hadoop-mapreduce-client-shuffle"   % "3.3.4"
 libraryDependencies += "org.apache.hadoop" % "hadoop-mapreduce-client-common"    % "3.3.4"
+libraryDependencies += "org.scalatestplus" %% "mockito-4-6"  % "3.2.14.0" % "test"
+libraryDependencies += "org.mockito"        % "mockito-core" % "2.7.19"   % Test
 
 assembly / assemblyMergeStrategy := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard

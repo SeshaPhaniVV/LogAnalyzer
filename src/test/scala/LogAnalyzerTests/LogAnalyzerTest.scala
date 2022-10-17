@@ -10,6 +10,7 @@ import LogAnalyzerTasks.{Task1, Task2, Task3, Task4}
 import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.io.{IntWritable, Text}
+import org.apache.hadoop.mapred.Mapper
 import org.apache.hadoop.mapreduce.Job
 import org.scalatest.BeforeAndAfter
 import org.scalatest.flatspec.AnyFlatSpec
@@ -17,12 +18,15 @@ import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.matchers.should.Matchers.*
 import org.slf4j.{Logger, LoggerFactory}
+import org.mockito.Mockito.*
+import org.scalatest.*
+import org.scalatestplus.mockito.MockitoSugar
 
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import scala.util.matching.Regex
 
-class LogAnalyzerTest extends AnyFlatSpec with Matchers {
+class LogAnalyzerTest extends AnyFlatSpec with Matchers with MockitoSugar {
   val config: Config = ConfigFactory.load("application.conf")
 
   it should "check if config file is present" in {
@@ -112,5 +116,27 @@ class LogAnalyzerTest extends AnyFlatSpec with Matchers {
     })
 
     assert(tag == new Text())
+  }
+
+  it should "update context for Task1Mapper for given valid input" in {
+    val string =
+      "13:01:40.935 [scala-execution-context-global-16] WARN  HelperUtils.Parameters$ - x2oBSI0/\\%CdfV2%ChSsnZ7vJo=2qJqZ%.\"kbc!0ne`y&m"
+
+    val task1   = new Task1Mapper()
+    val context = mock[task1.Context]
+    task1.map(new Object(), new Text(string), context)
+
+    verify(context, times(1)).write(new Text("WARN"), new IntWritable(1))
+  }
+
+  it should "should not update context for Task1Mapper for given invalid input" in {
+    val string =
+      "10:01:40.935 [scala-execution-context-global-16] WARN  HelperUtils.Parameters$ - x2oBSI0/\\%CdfV2%ChSsnZ7vJo=2qJqZ%.\"kbc!0ne`y&m"
+
+    val task1   = new Task1Mapper()
+    val context = mock[task1.Context]
+    task1.map(new Object(), new Text(string), context)
+
+    verify(context, times(0)).write(new Text("WARN"), new IntWritable(1))
   }
 }

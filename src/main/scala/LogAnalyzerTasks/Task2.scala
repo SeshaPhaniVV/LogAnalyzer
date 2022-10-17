@@ -46,17 +46,17 @@ object Task2 {
         value: Text,
         context: Mapper[Object, Text, Text, IntWritable]#Context
     ): Unit = {
-      val keyValPattern: Regex  = conf.getString("logAnalyzer.errorRegexPattern").r
-      val inject_pattern: Regex = conf.getString("logAnalyzer.injectedStringPattern").r
+      val keyValPattern: Regex = conf.getString("logAnalyzer.errorRegexPattern").r
+      val injectPattern: Regex = conf.getString("logAnalyzer.injectedStringPattern").r
 
       // If the a Log entry matches the regex pattern, and the generated log messages matches the injected string pattern
       // the ERROR log message is counted
       // Here. Key - TIME (HOUR) -  GROUP(1) . Time is in HH.mm.ss.SSS format so split(:)(0) is hour
       // Value - count : 1
-      val p = keyValPattern.findAllMatchIn(value.toString)
+      val matchedPatterns = keyValPattern.findAllMatchIn(value.toString)
 
-      p.toList.foreach((pattern) => {
-        inject_pattern.findFirstMatchIn(pattern.group(5)) match {
+      matchedPatterns.toList.foreach((pattern) => {
+        injectPattern.findFirstMatchIn(pattern.group(5)) match {
           case Some(_) => {
             interval.set(pattern.group(1).split(":")(0))
             context.write(interval, count)
@@ -64,7 +64,6 @@ object Task2 {
           case None => println("The Log message is not matching inject regex pattern")
         }
       })
-
     }
   }
 
@@ -86,8 +85,8 @@ object Task2 {
         context: Reducer[Text, IntWritable, Text, IntWritable]#Context
     ): Unit = {
       // for every hour the count of log messages are summed
-      val sum = values.asScala.foldLeft(0)(_ + _.get())
-      context.write(key, new IntWritable(sum))
+      val finalCount = values.asScala.foldLeft(0)(_ + _.get())
+      context.write(key, new IntWritable(finalCount))
     }
   }
 
@@ -113,7 +112,6 @@ object Task2 {
       val line   = value.toString.split(",")
       val result = line(1).toInt * -1
       context.write(new IntWritable(result), new Text(line(0)))
-
     }
   }
 
@@ -137,5 +135,4 @@ object Task2 {
       values.asScala.foreach(value => context.write(value, new IntWritable(key.get() * -1)))
     }
   }
-
 }
