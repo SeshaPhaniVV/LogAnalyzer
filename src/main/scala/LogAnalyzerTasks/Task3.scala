@@ -23,8 +23,8 @@ object Task3 {
     val count = new IntWritable(1)
     val tag   = new Text()
 
-    /** This class represents the Mapper class to find the count of generated log messages for each
-      * message type.
+    /** Mapper method reduces the log data into key, value pairs. for ex: INFO, 1. Filters the data
+      * which doesn't match regex and doesn't lie in time stamps
       *
       * @param key
       *   : Text - Log Message Tag
@@ -52,8 +52,8 @@ object Task3 {
 
   class Task3Reducer extends Reducer[Text, IntWritable, Text, IntWritable] {
 
-    /** This class represents the Reducer class to find the count of generated log messages for each
-      * message type.
+    /** Reducer aggregates the values of each map intermediate output and gets the total count of
+      * each log type.
       *
       * @param key
       *   : Text - Log Message Tag

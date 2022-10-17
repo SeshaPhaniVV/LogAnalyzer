@@ -16,7 +16,7 @@ object LogAnalyzer {
     // Wait for completion of task2Intermediate for task2 to sort on task2Intermediate output
     task2Intermediate.waitForCompletion(true)
     val task2Final = TaskEnqueuer.enqueueTask2()
-    // On Successful completion log the success message else failed message
+    // On completion logs the success message else failed message
     if (
       task1.waitForCompletion(true) && task2Final
         .waitForCompletion(true) && task3.waitForCompletion(true) && task4.waitForCompletion(true)

@@ -69,8 +69,8 @@ object Task2 {
 
   class Task2Reducer1 extends Reducer[Text, IntWritable, Text, IntWritable] {
 
-    /** Task 2: Reducer to display the count log messages of the type ERROR with injected regex
-      * pattern string instances in every one hour(time intervals).
+    /** Reducer to display the count log messages of the type ERROR with injected regex pattern
+      * string instances in every one hour(time intervals).
       *
       * @param key
       *   : Text - Time Interval
@@ -92,8 +92,8 @@ object Task2 {
 
   class Task2Mapper2 extends Mapper[Object, Text, IntWritable, Text] {
 
-    /** Task 2: Mapper method to display in SORTED ORDER based on the count log messages of the type
-      * ERROR with injected regex pattern string instances in every one hour(time intervals)
+    /** Mapper method to display in SORTED ORDER based on the count log messages of the type ERROR
+      * with injected regex pattern string instances in every one hour(time intervals)
       *
       * @param key
       *   : Object - Time Interval

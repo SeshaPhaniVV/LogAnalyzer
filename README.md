@@ -8,10 +8,12 @@
 
 ### Introduction
 The goal of this project is to gain experience with solving a distributed computational problem using cloud computing technologies.
+I have built a solution to analyze huge log files and solved a set of use cases using big data techniques such as hadoop Map Reduce and deployed this application in 
+AMAZON EMR cluster.
 
 Video Link : https://www.youtube.com/watch?v=HIEiFrPHoSE
 
-The video explains deployment of hadoop application in AWS EMR Instance
+The video explains deployment of hadoop application in AWS EMR Cluster
 
 ### Environment
 
@@ -29,7 +31,8 @@ Hadoop Version: 3.3.4
 
 ### Running the test file
 
-Test Files can be found under the directory /src/test/scala/*
+Test Files can be found under the directory /src/test/scala/LogAnalyzerTests
+I have used mockito and scalatestplus libraries and mocked the context to test the mapper functions
 
 ````
 sbt clean compile test
@@ -53,7 +56,7 @@ set up scala code formatter with the configuration file set as `.scalafmt.conf`
 https://www.jetbrains.com/help/idea/work-with-scala-formatter.html
 ```
 
-3) Generate jar file by running the following command in the terminal. Jar file is created in target/scala-3.2.0/LogFileGenerator-assembly-0.1.jar
+3) Generate jar file by running the following command in the terminal from project root folder. Jar file is created in target/scala-3.2.0/LogFileGenerator-assembly-0.1.jar
 
 ````
 sbt clean compile assembly
@@ -147,12 +150,13 @@ Now, logAnalyzerOutput will have all the output files in both normal and .csv fo
 4) LogAnalyzerTest - /src/test/scala/LogAnalyzerTests/LogAnalyzerTest
 5) Jar File - /target/scala-3.2.0/LogFileGenerator-assembly-0.1.jar : Generated Jar file
 
-
 ### Map Reduce Task Details
 
-There are totally 4 tasks created that this project accomplishes. They are clearly listed below
+This project solves total of 4 tasks. They are explained below:
 
-**Mapper:** The input data is first processed by all Mappers/Map tasks, and then the intermediate output is generated.
+**Mapper:** Mapper maps input key/value pairs to a set of intermediate key/value pairs.
+
+Maps are the individual tasks that transform input records into intermediate records. The transformed intermediate records do not need to be of the same type as the input records. A given input pair may map to zero or many output pairs.
 
 **Combiner:** Before the shuffle/sort phase, the Combiner optimizes all intermediate outputs using local aggregation. Combiners' main purpose is to reduce bandwidth by reducing the number of key/value pairs that must be shuffled across the network and delivered as input to the Reducer.
 
@@ -198,6 +202,6 @@ Task4Reducer : (Key, Value) (key -> logMessageTag - [ERRO/INFO/WARN/DEBUG]) , (v
 ### Output
 The output of every task can be located under output folder
 ```
-task1/task2/task3/task4 : One comma separated output file with the desired output.
+task1/task2/task3/task4: Final output for each task is stored in the individual folders
 task2Intermediate : This is the intermediate output of task2 before sorting.
 ```

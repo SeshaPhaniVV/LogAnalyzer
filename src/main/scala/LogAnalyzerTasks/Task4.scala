@@ -22,9 +22,8 @@ object Task4 {
   class Task4Mapper extends Mapper[Object, Text, Text, IntWritable] {
     val tag = new Text()
 
-    /** This class represents the Mapper class to produce the number of characters in each log
-      * message for each log message type that contain the highest number of characters in the
-      * detected instances of the designated regex pattern.
+    /** Map method produces the number of characters in each log message for each log message type
+      * of the matched regex pattern.
       *
       * @param key
       *   : Object - Log Message Tag
@@ -42,11 +41,9 @@ object Task4 {
       val keyValPattern: Regex = conf.getString("logAnalyzer.regexPattern").r
       val injectPattern: Regex = conf.getString("logAnalyzer.injectedStringPattern").r
 
-      // If the a Log entry matches the regex pattern, the generated log messages matches the injected string pattern,
-      // every log message and its count is passed to reducer
-      // here, Key -> Log Messgae Tag
-      // and value -> log message length
-
+      /** If the Log entry matches the regex pattern, the generated log messages matches the
+        * injected string patter, Key -> Log Messgae Tag and value -> log message length
+        */
       val patternMatch = keyValPattern.findFirstMatchIn(value.toString)
       patternMatch.toList.foreach((pattern) => {
         injectPattern.findFirstMatchIn(pattern.group(5)) match {
@@ -63,9 +60,8 @@ object Task4 {
 
   class Task4Reducer extends Reducer[Text, IntWritable, Text, IntWritable] {
 
-    /** This class represents the Reducer class to produce the number of characters in each log
-      * message for each log message type that contain the highest number of characters in the
-      * detected instances of the designated regex pattern.
+    /** Reducer method gets the length of each message and gets the maximum length for a log type
+      * ex: INFO, 89 -> Max characters present in one INFO Log across the logs are 89
       *
       * @param key
       *   : Text - Log Message Tag
@@ -81,8 +77,8 @@ object Task4 {
     ): Unit = {
 
       // the max of the value for a specific log message tag is retrieved
-      val sum = values.asScala.foldLeft(0)(_ max _.get)
-      context.write(key, new IntWritable(sum))
+      val maxLength = values.asScala.foldLeft(0)(_ max _.get)
+      context.write(key, new IntWritable(maxLength))
     }
   }
 }
