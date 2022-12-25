@@ -1,10 +1,9 @@
 ## CS441 - Engineering Distributed Objects for Cloud Computing
 
-## HomeWork 1 - Log File Analyzer
+## Log File Analyzer
 
 ### Author: Venkata Sesha Phani, Vakicherla
-### Email: vvakic2@uic.edu
-### UIN: 651416734
+### Email: phani.vakicherla@gmail.com
 
 ### Introduction
 The goal of this project is to gain experience with solving a distributed computational problem using cloud computing technologies.
