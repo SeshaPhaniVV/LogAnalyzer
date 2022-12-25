@@ -1,5 +1,3 @@
-## CS441 - Engineering Distributed Objects for Cloud Computing
-
 ## Log File Analyzer
 
 ### Author: Venkata Sesha Phani, Vakicherla
