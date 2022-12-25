@@ -5,8 +5,7 @@
 
 ### Introduction
 The goal of this project is to gain experience with solving a distributed computational problem using cloud computing technologies.
-I have built a solution to analyze huge log files and solved a set of use cases using big data techniques such as hadoop Map Reduce and deployed this application in 
-AMAZON EMR cluster.
+I have built a solution to analyze huge log files and solved a set of use cases using big data techniques such as hadoop Map Reduce and deployed this application in AMAZON EMR cluster.
 
 Video Link : https://www.youtube.com/watch?v=HIEiFrPHoSE
 
